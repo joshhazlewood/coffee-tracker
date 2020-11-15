@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -38,11 +39,11 @@ class BeansServiceImplIntegrationTest {
 
   @BeforeEach
   public void setUp() {
-    var ancoats = new Beans("Ancoats house blend", 500);
+    var ancoats = new Beans("Ancoats house blend", BigDecimal.valueOf(500));
     ancoats.setId(10L);
     log.info(ancoats.toString());
-    var atkinsons = new Beans("Atkinsons house blend", 500);
-    var neighbourhood = new Beans("Neighbourhood house blend", 500);
+    var atkinsons = new Beans("Atkinsons house blend", BigDecimal.valueOf(500));
+    var neighbourhood = new Beans("Neighbourhood house blend", BigDecimal.valueOf(500));
 
     List<Beans> allBeans = Arrays.asList(ancoats, atkinsons, neighbourhood);
 

@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
+import java.math.BigDecimal;
+
 @SpringBootApplication
 public class CoffeeTrackerApplication {
   private static final Logger log = LoggerFactory.getLogger(CoffeeTrackerApplication.class);
@@ -23,10 +25,10 @@ public class CoffeeTrackerApplication {
   public CommandLineRunner demo(BeansRepository repository) {
     return (args) -> {
       // save some beans
-      repository.save(new Beans("India", 250));
-      repository.save(new Beans("Ethiopia", 500));
-      repository.save(new Beans("Guatemala", 250));
-      repository.save(new Beans("Kenya", 1000));
+      repository.save(new Beans("India", BigDecimal.valueOf(250)));
+      repository.save(new Beans("Ethiopia", BigDecimal.valueOf(500)));
+      repository.save(new Beans("Guatemala", BigDecimal.valueOf(250)));
+      repository.save(new Beans("Kenya", BigDecimal.valueOf(1000)));
 
       // fetch all beans
       log.info("Beans found with findAll()");

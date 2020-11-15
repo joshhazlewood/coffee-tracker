@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Entity
 public class Beans {
@@ -12,11 +13,11 @@ public class Beans {
   private Long id;
 
   private String name;
-  private double amount;
+  private BigDecimal amount;
 
   protected Beans() {}
 
-  public Beans(String name, double amount) {
+  public Beans(String name, BigDecimal amount) {
     this.name = name;
     this.amount = amount;
   }
@@ -42,11 +43,11 @@ public class Beans {
     this.name = name;
   }
 
-  public double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
-  public void setAmount(double amount) {
+  public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
 }
