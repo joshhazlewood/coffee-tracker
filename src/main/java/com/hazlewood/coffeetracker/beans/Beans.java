@@ -1,18 +1,25 @@
 package com.hazlewood.coffeetracker.beans;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "beans")
 public class Beans {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
+  @NotBlank(message = "Name is required")
   private String name;
+
+  @NotNull
+  @DecimalMax(value = "2000")
+  @DecimalMin(value = "1")
   private BigDecimal amount;
 
   protected Beans() {}
@@ -24,7 +31,7 @@ public class Beans {
 
   @Override
   public String toString() {
-    return String.format("Beans[id=%d, name='%s', amount='%f']", id, name, amount);
+    return String.format("Beans[id=%d, name='%s', amount='%.2f']", id, name, amount);
   }
 
   public Long getId() {

@@ -3,7 +3,9 @@ package com.hazlewood.coffeetracker.beans;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,10 +18,20 @@ public class BeansController {
     return beansService.getAllBeans();
   }
 
+  @GetMapping("/beans/{id}")
+  public Beans one(@PathVariable Long id) {
+    return beansService.getBeansById(id).orElseThrow(() -> new BeansNotFoundException(id));
+  }
+
   @PostMapping("/beans")
   @ResponseStatus(HttpStatus.CREATED)
-  public Beans save(@RequestBody Beans newBeans) {
-    return beansService.save(newBeans);
+  public Beans save(@Valid @RequestBody Beans newBeans) {
+    try {
+      return beansService.save(newBeans);
+    } catch (Exception ex) {
+      throw new ResponseStatusException(
+          HttpStatus.INTERNAL_SERVER_ERROR, "An error has occurred while saving these beans.", ex);
+    }
   }
 
 }

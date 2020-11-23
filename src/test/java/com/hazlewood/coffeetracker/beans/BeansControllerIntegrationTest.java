@@ -34,7 +34,7 @@ class BeansControllerIntegrationTest {
 
   @Test
   public void whenCreatingValidBean_ThenReturnBean() throws Exception {
-    var createdBean = new Beans("Ancoats house blend", BigDecimal.valueOf(500));
+    var createdBean = new Beans( "Ancoats house blend", BigDecimal.valueOf(500));
     createdBean.setId(1L);
     when(service.save(ArgumentMatchers.any(Beans.class))).thenReturn(createdBean);
 
