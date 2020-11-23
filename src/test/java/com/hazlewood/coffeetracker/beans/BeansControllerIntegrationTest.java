@@ -13,14 +13,16 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -48,6 +50,69 @@ class BeansControllerIntegrationTest {
         .andExpect(jsonPath("$.id", is(1)))
         .andExpect(jsonPath("$.name", is("Ancoats house blend")))
         .andExpect(jsonPath("$.amount", is(500)));
+  }
+
+  @Test
+  public void whenCreatingInvalidBean_ThenThrowError() throws Exception {
+    var invalidBeans = new Beans();
+    invalidBeans.setName("Invalid beans");
+    mockMvc.perform(
+        post("/api/beans")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(objectMapper.writeValueAsString(invalidBeans)))
+        .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  public void whenFindingExistingBeansById_ThenReturnMatchingBeans() throws Exception {
+    var beans = new Beans("House blend", BigDecimal.valueOf(500.0));
+    beans.setId(1L);
+    when(service.getBeansById(anyLong())).thenReturn(Optional.of(beans));
+
+    mockMvc
+        .perform(get("/api/beans/1"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id", is(1)))
+        .andExpect(jsonPath("$.name", is(beans.getName())))
+        .andExpect(jsonPath("$.amount", is(beans.getAmount().doubleValue())));
+  }
+
+  @Test
+  public void whenFindingNonExistingBeansById_ThenReturnMatchingBeans() throws Exception {
+    when(service.getBeansById(anyLong())).thenReturn(Optional.empty());
+
+    mockMvc
+        .perform(get("/api/beans/1"))
+        .andDo(print())
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Could not find beans 1"));
+  }
+
+  @Test
+  public void whenFindingExistingBeansByName_ThenReturnMatchingBeans() throws Exception {
+    var beans = new Beans("House blend", BigDecimal.valueOf(500.0));
+    beans.setId(1L);
+    when(service.findByName(anyString())).thenReturn(Optional.of(beans));
+
+    mockMvc
+        .perform(get("/api/beans/name/House blend"))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id", is(1)))
+        .andExpect(jsonPath("$.name", is(beans.getName())))
+        .andExpect(jsonPath("$.amount", is(beans.getAmount().doubleValue())));
+  }
+
+  @Test
+  public void whenFindingNonExistingBeansByName_ThenReturnMatchingBeans() throws Exception {
+    when(service.findByName(anyString())).thenReturn(Optional.empty());
+
+    mockMvc
+        .perform(get("/api/beans/name/nonexisting beans"))
+        .andDo(print())
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("Could not find beans nonexisting beans"));
   }
 
   @Test
