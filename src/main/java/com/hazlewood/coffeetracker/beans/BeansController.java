@@ -34,4 +34,9 @@ public class BeansController {
     }
   }
 
+  @GetMapping("/beans/name/{name}")
+  public Beans oneByName(@PathVariable String name) {
+    return beansService.findByName(name).orElseThrow(() -> new BeansNotFoundException(name));
+  }
+
 }
