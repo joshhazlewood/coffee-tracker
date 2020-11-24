@@ -28,7 +28,7 @@ class BeansRepositoryIntegrationTest {
 
   @Test
   public void whenFindByName_ThenReturnEmployee() {
-    Beans ancoats = new Beans("Ancoats house blend", BigDecimal.valueOf(500));
+    Beans ancoats = new Beans("Ancoats house blend", "Ancoats", "profile");
     entityManager.persistAndFlush(ancoats);
 
     Beans found = repository.findByName("Ancoats house blend").get();
@@ -43,7 +43,7 @@ class BeansRepositoryIntegrationTest {
 
   @Test
   public void whenFindById_ThenReturnBeans() {
-    Beans ancoats = new Beans("Ancoats house blend", BigDecimal.valueOf(500));
+    Beans ancoats = new Beans("Ancoats house blend", "Ancoats", "profile");
     entityManager.persistAndFlush(ancoats);
 
     Beans found = repository.findById(ancoats.getId()).get();
@@ -58,9 +58,9 @@ class BeansRepositoryIntegrationTest {
 
   @Test
   public void givenSetOfBeans_WhenFindAll_ThenReturnAllBeans() {
-    var ancoats = new Beans("Ancoats house blend", BigDecimal.valueOf(500));
-    var atkinsons = new Beans("Atkinsons house blend", BigDecimal.valueOf(500));
-    var neighbourhood = new Beans("Neighbourhood house blend", BigDecimal.valueOf(500));
+    var ancoats = new Beans("Ancoats house blend", "Ancoats", "profile");
+    var atkinsons = new Beans("Atkinsons house blend", "Ancoats", "profile");
+    var neighbourhood = new Beans("Neighbourhood house blend", "Ancoats", "profile");
 
     entityManager.persist(ancoats);
     entityManager.persist(atkinsons);

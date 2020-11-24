@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +35,7 @@ class BeansControllerIntegrationTest {
 
   @Test
   public void whenCreatingValidBean_ThenReturnBean() throws Exception {
-    var createdBean = new Beans( "Ancoats house blend", BigDecimal.valueOf(500));
+    var createdBean = new Beans( "Ancoats house blend", "Ancoats", "profile");
     createdBean.setId(1L);
     when(service.save(ArgumentMatchers.any(Beans.class))).thenReturn(createdBean);
 
@@ -44,12 +43,13 @@ class BeansControllerIntegrationTest {
         .perform(
             post("/api/beans")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new Beans("Ancoats house blend", BigDecimal.valueOf(500))))
+                .content(objectMapper.writeValueAsString(new Beans("Ancoats house blend", "Ancoats", "profile")))
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.id", is(1)))
         .andExpect(jsonPath("$.name", is("Ancoats house blend")))
-        .andExpect(jsonPath("$.amount", is(500)));
+        .andExpect(jsonPath("$.roastery", is("Ancoats")))
+        .andExpect(jsonPath("$.cupProfile", is("profile")));
   }
 
   @Test
@@ -65,7 +65,7 @@ class BeansControllerIntegrationTest {
 
   @Test
   public void whenFindingExistingBeansById_ThenReturnMatchingBeans() throws Exception {
-    var beans = new Beans("House blend", BigDecimal.valueOf(500.0));
+    var beans = new Beans("House blend", "Ancoats", "profile");
     beans.setId(1L);
     when(service.findById(anyLong())).thenReturn(Optional.of(beans));
 
@@ -75,7 +75,8 @@ class BeansControllerIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(1)))
         .andExpect(jsonPath("$.name", is(beans.getName())))
-        .andExpect(jsonPath("$.amount", is(beans.getAmount().doubleValue())));
+        .andExpect(jsonPath("$.roastery", is("Ancoats")))
+        .andExpect(jsonPath("$.cupProfile", is("profile")));
   }
 
   @Test
@@ -90,8 +91,16 @@ class BeansControllerIntegrationTest {
   }
 
   @Test
+  public void whenFindingBeansByInvalidId_ThenThrowError() throws Exception {
+    mockMvc
+        .perform(get("/api/beans/c"))
+        .andDo(print())
+        .andExpect(status().is4xxClientError());
+  }
+
+  @Test
   public void whenFindingExistingBeansByName_ThenReturnMatchingBeans() throws Exception {
-    var beans = new Beans("House blend", BigDecimal.valueOf(500.0));
+    var beans = new Beans("House blend", "Ancoats", "profile");
     beans.setId(1L);
     when(service.findByName(anyString())).thenReturn(Optional.of(beans));
 
@@ -101,7 +110,8 @@ class BeansControllerIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id", is(1)))
         .andExpect(jsonPath("$.name", is(beans.getName())))
-        .andExpect(jsonPath("$.amount", is(beans.getAmount().doubleValue())));
+        .andExpect(jsonPath("$.roastery", is(beans.getRoastery())))
+        .andExpect(jsonPath("$.cupProfile", is(beans.getCupProfile())));
   }
 
   @Test
@@ -124,21 +134,26 @@ class BeansControllerIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].id", is(1)))
         .andExpect(jsonPath("$[0].name", is("Ancoats house blend")))
-        .andExpect(jsonPath("$[0].amount", is(500)))
+        .andExpect(jsonPath("$[0].roastery", is("Ancoats")))
+        .andExpect(jsonPath("$[0].cupProfile", is("profile")))
         .andExpect(jsonPath("$[1].id", is(2)))
         .andExpect(jsonPath("$[1].name", is("Atkinsons house blend")))
-        .andExpect(jsonPath("$[1].amount", is(250)))
+        .andExpect(jsonPath("$[1].roastery", is("Atkinsons")))
+        .andExpect(jsonPath("$[1].cupProfile", is("profile")))
         .andExpect(jsonPath("$[2].id", is(3)))
         .andExpect(jsonPath("$[2].name", is("Neighbourhood house blend")))
-        .andExpect(jsonPath("$[2].amount", is(1000)));
+        .andExpect(jsonPath("$[2].roastery", is("Neighbourhood")))
+        .andExpect(jsonPath("$[2].cupProfile", is("profile")));
+
+
   }
 
   private List<Beans> getBeansList() {
-    var ancoats = new Beans("Ancoats house blend", BigDecimal.valueOf(500));
+    var ancoats = new Beans("Ancoats house blend", "Ancoats", "profile");
     ancoats.setId(1L);
-    var atkinsons = new Beans("Atkinsons house blend", BigDecimal.valueOf(250));
+    var atkinsons = new Beans("Atkinsons house blend", "Atkinsons", "profile");
     atkinsons.setId(2L);
-    var neighbourhood = new Beans("Neighbourhood house blend", BigDecimal.valueOf(1000));
+    var neighbourhood = new Beans("Neighbourhood house blend", "Neighbourhood", "profile");
     neighbourhood.setId(3L);
 
     return List.of(ancoats, atkinsons, neighbourhood);

@@ -1,11 +1,7 @@
 package com.hazlewood.coffeetracker.beans;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "beans")
@@ -17,21 +13,22 @@ public class Beans {
   @NotBlank(message = "Name is required")
   private String name;
 
-  @NotNull
-  @DecimalMax(value = "2000")
-  @DecimalMin(value = "1")
-  private BigDecimal amount;
+  @NotBlank(message = "Roastery is required")
+  private String roastery;
+
+  private String cupProfile;
 
   protected Beans() {}
 
-  public Beans(String name, BigDecimal amount) {
+  public Beans(String name, String roastery, String cupProfile) {
     this.name = name;
-    this.amount = amount;
+    this.roastery = roastery;
+    this.cupProfile = cupProfile;
   }
 
   @Override
   public String toString() {
-    return String.format("Beans[id=%d, name='%s', amount='%.2f']", id, name, amount);
+    return String.format("Beans[id=%d, name='%s', roastery='%s']", id, name, roastery);
   }
 
   public Long getId() {
@@ -50,11 +47,19 @@ public class Beans {
     this.name = name;
   }
 
-  public BigDecimal getAmount() {
-    return amount;
+  public String getRoastery() {
+    return roastery;
   }
 
-  public void setAmount(BigDecimal amount) {
-    this.amount = amount;
+  public void setRoastery(String roastery) {
+    this.roastery = roastery;
+  }
+
+  public String getCupProfile() {
+    return cupProfile;
+  }
+
+  public void setCupProfile(String cupProfile) {
+    this.cupProfile = cupProfile;
   }
 }
