@@ -29,7 +29,6 @@ class BeansRepositoryIntegrationTest {
   @Test
   public void whenFindByName_ThenReturnEmployee() {
     Beans ancoats = new Beans("Ancoats house blend", BigDecimal.valueOf(500));
-
     entityManager.persistAndFlush(ancoats);
 
     Beans found = repository.findByName("Ancoats house blend").get();
