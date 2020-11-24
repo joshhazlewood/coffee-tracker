@@ -23,7 +23,7 @@ public class BeansServiceImpl implements BeansService {
   }
 
   @Override
-  public Optional<Beans> getBeansById(Long id) {
+  public Optional<Beans> findById(Long id) {
     return repository.findById(id);
   }
 

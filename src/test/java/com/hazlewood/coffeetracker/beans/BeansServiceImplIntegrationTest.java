@@ -73,7 +73,7 @@ class BeansServiceImplIntegrationTest {
 
   @Test
   public void whenValidId_ThenBeansShouldBeFound() {
-    Beans found = beansService.getBeansById(10L).get();
+    Beans found = beansService.findById(10L).get();
     assertThat(found.getName()).isEqualTo("Ancoats house blend");
 
     verifyFindByIdCalledOnce();
@@ -81,7 +81,7 @@ class BeansServiceImplIntegrationTest {
 
   @Test
   public void whenInValidId_ThenBeansShouldNotBeFound() {
-    Optional<Beans> found = beansService.getBeansById(11L);
+    Optional<Beans> found = beansService.findById(11L);
     assertThat(found).isEqualTo(Optional.empty());
 
     verifyFindByIdCalledOnce();

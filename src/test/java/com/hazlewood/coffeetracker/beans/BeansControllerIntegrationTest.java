@@ -67,7 +67,7 @@ class BeansControllerIntegrationTest {
   public void whenFindingExistingBeansById_ThenReturnMatchingBeans() throws Exception {
     var beans = new Beans("House blend", BigDecimal.valueOf(500.0));
     beans.setId(1L);
-    when(service.getBeansById(anyLong())).thenReturn(Optional.of(beans));
+    when(service.findById(anyLong())).thenReturn(Optional.of(beans));
 
     mockMvc
         .perform(get("/api/beans/1"))
@@ -80,7 +80,7 @@ class BeansControllerIntegrationTest {
 
   @Test
   public void whenFindingNonExistingBeansById_ThenReturnMatchingBeans() throws Exception {
-    when(service.getBeansById(anyLong())).thenReturn(Optional.empty());
+    when(service.findById(anyLong())).thenReturn(Optional.empty());
 
     mockMvc
         .perform(get("/api/beans/1"))

@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class BeansController {
+
   @Autowired private BeansService beansService;
 
   @GetMapping("/beans")
@@ -20,7 +21,7 @@ public class BeansController {
 
   @GetMapping("/beans/{id}")
   public Beans one(@PathVariable Long id) {
-    return beansService.getBeansById(id).orElseThrow(() -> new BeansNotFoundException(id));
+    return beansService.findById(id).orElseThrow(() -> new BeansNotFoundException(id));
   }
 
   @PostMapping("/beans")

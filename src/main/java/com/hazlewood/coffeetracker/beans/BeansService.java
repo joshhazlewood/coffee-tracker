@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BeansService {
-  Optional<Beans> getBeansById(Long id);
+  Optional<Beans> findById(Long id);
 
   List<Beans> getAllBeans();
 
