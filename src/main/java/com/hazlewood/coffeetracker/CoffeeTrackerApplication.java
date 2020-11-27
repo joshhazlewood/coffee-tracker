@@ -25,10 +25,10 @@ public class CoffeeTrackerApplication {
   public CommandLineRunner demo(BeansRepository repository) {
     return (args) -> {
       // save some beans
-      repository.save(new Beans("India", "Ancoats", "profile"));
-      repository.save(new Beans("Ethiopia", "Ancoats", "profile"));
-      repository.save(new Beans("Guatemala", "Ancoats", "profile"));
-      repository.save(new Beans("Kenya", "Ancoats", "profile"));
+      repository.save(new Beans("India", "Ancoats", "profile", "India"));
+      repository.save(new Beans("Ethiopia", "Ancoats", "profile", "India"));
+      repository.save(new Beans("Guatemala", "Ancoats", "profile", "India"));
+      repository.save(new Beans("Kenya", "Ancoats", "profile", "India"));
 
       // fetch all beans
       log.info("Beans found with findAll()");

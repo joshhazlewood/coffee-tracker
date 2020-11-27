@@ -6,7 +6,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ class BeansRepositoryIntegrationTest {
 
   @Test
   public void whenFindByName_ThenReturnEmployee() {
-    Beans ancoats = new Beans("Ancoats house blend", "Ancoats", "profile");
+    Beans ancoats = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     entityManager.persistAndFlush(ancoats);
 
     Beans found = repository.findByName("Ancoats house blend").get();
@@ -43,7 +42,7 @@ class BeansRepositoryIntegrationTest {
 
   @Test
   public void whenFindById_ThenReturnBeans() {
-    Beans ancoats = new Beans("Ancoats house blend", "Ancoats", "profile");
+    Beans ancoats = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     entityManager.persistAndFlush(ancoats);
 
     Beans found = repository.findById(ancoats.getId()).get();
@@ -58,9 +57,9 @@ class BeansRepositoryIntegrationTest {
 
   @Test
   public void givenSetOfBeans_WhenFindAll_ThenReturnAllBeans() {
-    var ancoats = new Beans("Ancoats house blend", "Ancoats", "profile");
-    var atkinsons = new Beans("Atkinsons house blend", "Ancoats", "profile");
-    var neighbourhood = new Beans("Neighbourhood house blend", "Ancoats", "profile");
+    var ancoats = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
+    var atkinsons = new Beans("Atkinsons house blend", "Ancoats", "profile", "India");
+    var neighbourhood = new Beans("Neighbourhood house blend", "Ancoats", "profile", "India");
 
     entityManager.persist(ancoats);
     entityManager.persist(atkinsons);

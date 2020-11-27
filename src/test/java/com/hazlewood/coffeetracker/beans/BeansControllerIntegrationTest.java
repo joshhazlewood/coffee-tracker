@@ -35,7 +35,7 @@ class BeansControllerIntegrationTest {
 
   @Test
   public void whenCreatingValidBean_ThenReturnBean() throws Exception {
-    var createdBean = new Beans( "Ancoats house blend", "Ancoats", "profile");
+    var createdBean = new Beans( "Ancoats house blend", "Ancoats", "profile", "India");
     createdBean.setId(1L);
     when(service.save(ArgumentMatchers.any(Beans.class))).thenReturn(createdBean);
 
@@ -43,7 +43,7 @@ class BeansControllerIntegrationTest {
         .perform(
             post("/api/beans")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new Beans("Ancoats house blend", "Ancoats", "profile")))
+                .content(objectMapper.writeValueAsString(new Beans("Ancoats house blend", "Ancoats", "profile", "India")))
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.id", is(1)))
@@ -65,7 +65,7 @@ class BeansControllerIntegrationTest {
 
   @Test
   public void whenFindingExistingBeansById_ThenReturnMatchingBeans() throws Exception {
-    var beans = new Beans("House blend", "Ancoats", "profile");
+    var beans = new Beans("House blend", "Ancoats", "profile", "India");
     beans.setId(1L);
     when(service.findById(anyLong())).thenReturn(Optional.of(beans));
 
@@ -100,7 +100,7 @@ class BeansControllerIntegrationTest {
 
   @Test
   public void whenFindingExistingBeansByName_ThenReturnMatchingBeans() throws Exception {
-    var beans = new Beans("House blend", "Ancoats", "profile");
+    var beans = new Beans("House blend", "Ancoats", "profile", "India");
     beans.setId(1L);
     when(service.findByName(anyString())).thenReturn(Optional.of(beans));
 
@@ -149,11 +149,11 @@ class BeansControllerIntegrationTest {
   }
 
   private List<Beans> getBeansList() {
-    var ancoats = new Beans("Ancoats house blend", "Ancoats", "profile");
+    var ancoats = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     ancoats.setId(1L);
-    var atkinsons = new Beans("Atkinsons house blend", "Atkinsons", "profile");
+    var atkinsons = new Beans("Atkinsons house blend", "Atkinsons", "profile", "India");
     atkinsons.setId(2L);
-    var neighbourhood = new Beans("Neighbourhood house blend", "Neighbourhood", "profile");
+    var neighbourhood = new Beans("Neighbourhood house blend", "Neighbourhood", "profile", "India");
     neighbourhood.setId(3L);
 
     return List.of(ancoats, atkinsons, neighbourhood);

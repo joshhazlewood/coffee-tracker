@@ -1,11 +1,14 @@
 package com.hazlewood.coffeetracker.beans;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "beans")
 public class Beans {
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -16,14 +19,19 @@ public class Beans {
   @NotBlank(message = "Roastery is required")
   private String roastery;
 
+  @Nullable
   private String cupProfile;
+
+  @Nullable
+  private String countryOfOrigin;
 
   protected Beans() {}
 
-  public Beans(String name, String roastery, String cupProfile) {
+  public Beans(String name, String roastery, String cupProfile, String countryOfOrigin) {
     this.name = name;
     this.roastery = roastery;
     this.cupProfile = cupProfile;
+    this.countryOfOrigin = countryOfOrigin;
   }
 
   @Override
@@ -55,11 +63,21 @@ public class Beans {
     this.roastery = roastery;
   }
 
+  @Nullable
   public String getCupProfile() {
     return cupProfile;
   }
 
   public void setCupProfile(String cupProfile) {
     this.cupProfile = cupProfile;
+  }
+
+  @Nullable
+  public String getCountryOfOrigin() {
+    return countryOfOrigin;
+  }
+
+  public void setCountryOfOrigin(@Nullable String countryOfOrigin) {
+    this.countryOfOrigin = countryOfOrigin;
   }
 }

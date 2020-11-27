@@ -38,11 +38,11 @@ class BeansServiceImplIntegrationTest {
 
   @BeforeEach
   public void setUp() {
-    var ancoats = new Beans("Ancoats house blend", "Ancoats", "profile");
+    var ancoats = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     ancoats.setId(10L);
     log.info(ancoats.toString());
-    var atkinsons = new Beans("Atkinsons house blend", "Ancoats", "profile");
-    var neighbourhood = new Beans("Neighbourhood house blend", "Ancoats", "profile");
+    var atkinsons = new Beans("Atkinsons house blend", "Ancoats", "profile", "India");
+    var neighbourhood = new Beans("Neighbourhood house blend", "Ancoats", "profile", "India");
 
     List<Beans> allBeans = Arrays.asList(ancoats, atkinsons, neighbourhood);
 
