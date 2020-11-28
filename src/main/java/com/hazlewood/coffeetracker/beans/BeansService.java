@@ -12,5 +12,7 @@ public interface BeansService {
 
   boolean exists(String name);
 
+  boolean exists(Long id);
+
   Beans save(Beans beans);
 }

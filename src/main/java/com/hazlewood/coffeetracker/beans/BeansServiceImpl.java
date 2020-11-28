@@ -42,4 +42,9 @@ public class BeansServiceImpl implements BeansService {
   public boolean exists(String name) {
     return repository.findByName(name).isPresent();
   }
+
+  @Override
+  public boolean exists(Long id) {
+    return repository.findById(id).isPresent();
+  }
 }
