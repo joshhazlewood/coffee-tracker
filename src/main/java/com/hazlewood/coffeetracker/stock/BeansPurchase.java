@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "beans_stock")
-public class StockItem {
+public class BeansPurchase {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,9 +22,9 @@ public class StockItem {
   @DecimalMin(value = "0.0", inclusive = false)
   private BigDecimal currentQuantity;
 
-  public StockItem() {}
+  public BeansPurchase() {}
 
-  public StockItem(Beans beans, BigDecimal initialQuantity, BigDecimal currentQuantity) {
+  public BeansPurchase(Beans beans, BigDecimal initialQuantity, BigDecimal currentQuantity) {
     this.beans = beans;
     this.initialQuantity = initialQuantity;
     this.currentQuantity = currentQuantity;
@@ -32,7 +32,7 @@ public class StockItem {
 
   @Override
   public String toString() {
-    return "StockItem{" +
+    return "BeansPurchase{" +
         "id=" + id +
         ", beans_id=" + beans +
         ", initialQuantity=" + initialQuantity +

@@ -16,14 +16,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
-public class StockItemRepositoryIntegrationTest {
+public class BeansPurchaseRepositoryIntegrationTest {
 
-  Logger log = LoggerFactory.getLogger(StockItemRepositoryIntegrationTest.class);
+  Logger log = LoggerFactory.getLogger(BeansPurchaseRepositoryIntegrationTest.class);
 
   @Autowired
   private TestEntityManager entityManager;
 
-  @Autowired private StockItemRepository repository;
+  @Autowired private BeansPurchaseRepository repository;
 
   @Test
   void injectedComponentsAreNotNull() {
@@ -36,8 +36,8 @@ public class StockItemRepositoryIntegrationTest {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     Beans savedBeans = entityManager.persistAndFlush(beans);
 
-    var stock = new StockItem(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
-    StockItem savedStock = entityManager.persistAndFlush(stock);
+    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
+    BeansPurchase savedStock = entityManager.persistAndFlush(stock);
 
     var found = repository.findById(savedStock.getId());
     assertThat(found).isNotEmpty();
@@ -46,7 +46,7 @@ public class StockItemRepositoryIntegrationTest {
 
   @Test
   public void givenNonExistingStockItem_WhenFindingById_ThenNonFound() {
-    Optional<StockItem> item = repository.findById(10L);
+    Optional<BeansPurchase> item = repository.findById(10L);
     assertThat(item).isEmpty();
   }
 
@@ -55,8 +55,8 @@ public class StockItemRepositoryIntegrationTest {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     Beans savedBeans = entityManager.persistAndFlush(beans);
 
-    var stock = new StockItem(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
-    StockItem savedStock = repository.save(stock);
+    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
+    BeansPurchase savedStock = repository.save(stock);
     assertThat(savedStock).isNotNull();
     assertThat(savedStock.getId()).isNotNull();
   }
@@ -66,13 +66,13 @@ public class StockItemRepositoryIntegrationTest {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     Beans savedBeans = entityManager.persistAndFlush(beans);
 
-    var stock = new StockItem(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
-    StockItem savedStock = entityManager.persistAndFlush(stock);
+    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
+    BeansPurchase savedStock = entityManager.persistAndFlush(stock);
 
     int updatedRows = repository.setCurrentQuantity(BigDecimal.valueOf(200), savedStock.getId());
     assertThat(updatedRows).isEqualTo(1);
 
-    Optional<StockItem> updatedItem = repository.findById(savedStock.getId());
+    Optional<BeansPurchase> updatedItem = repository.findById(savedStock.getId());
     assertThat(updatedItem).isNotEmpty();
     assertThat(updatedItem.get().getCurrentQuantity().setScale(2)).isEqualTo(BigDecimal.valueOf(200).setScale(2));
   }
@@ -82,8 +82,8 @@ public class StockItemRepositoryIntegrationTest {
 //    var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
 //    Beans savedBeans = entityManager.persistAndFlush(beans);
 //
-//    var stock = new StockItem(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
-//    StockItem savedStock = entityManager.persistAndFlush(stock);
+//    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
+//    BeansPurchase savedStock = entityManager.persistAndFlush(stock);
 //
 //    int updatedRows = repository.setCurrentQuantity(BigDecimal.valueOf(-1.0), savedStock.getId());
 //    repository.findAll().forEach(item -> log.info(item.toString()));

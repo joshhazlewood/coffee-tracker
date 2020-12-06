@@ -25,43 +25,43 @@ import static org.mockito.Mockito.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
-class StockItemServiceImplIntegrationTest {
-  Logger log = LoggerFactory.getLogger(StockItemServiceImplIntegrationTest.class);
+class BeansPurchaseServiceImplIntegrationTest {
+  Logger log = LoggerFactory.getLogger(BeansPurchaseServiceImplIntegrationTest.class);
 
   @TestConfiguration
   static class StockItemServiceImplTestContextConfiguration {
     @Bean
-    public StockItemService stockItemService() {
-      return new StockItemServiceImpl();
+    public BeansPurchaseService stockItemService() {
+      return new BeansPurchaseServiceImpl();
     }
   }
 
   @Autowired
-  private StockItemService stockItemService;
+  private BeansPurchaseService beansPurchaseService;
 
   @MockBean
-  private StockItemRepository stockItemRepository;
+  private BeansPurchaseRepository beansPurchaseRepository;
 
   @BeforeEach
   public void setUp() {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     beans.setId(10L);
-    var stock1 = new StockItem(beans, BigDecimal.valueOf(1000), BigDecimal.valueOf(1000));
+    var stock1 = new BeansPurchase(beans, BigDecimal.valueOf(1000), BigDecimal.valueOf(1000));
     stock1.setId(1L);
-    var stock2 = new StockItem(beans, BigDecimal.valueOf(250), BigDecimal.valueOf(250));
+    var stock2 = new BeansPurchase(beans, BigDecimal.valueOf(250), BigDecimal.valueOf(250));
     stock2.setId(2L);
-    var stock3 = new StockItem(beans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
+    var stock3 = new BeansPurchase(beans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
     stock3.setId(3L);
     var stockList = Arrays.asList(stock1, stock2, stock3);
     
 
-    when(stockItemRepository.findAll()).thenReturn(stockList);
-    when(stockItemRepository.findById(1L)).thenReturn(Optional.of(stock1));
+    when(beansPurchaseRepository.findAll()).thenReturn(stockList);
+    when(beansPurchaseRepository.findById(1L)).thenReturn(Optional.of(stock1));
   }
 
   @Test
   public void givenItemFound_WhenFindingById_ThenReturnBeans() {
-    Optional<StockItem> item = stockItemService.findById(1L);
+    Optional<BeansPurchase> item = beansPurchaseService.findById(1L);
 
     assertThat(item).isNotEmpty();
     assertThat(item.get().getId()).isEqualTo(1L);
@@ -73,17 +73,17 @@ class StockItemServiceImplIntegrationTest {
 
   @Test
   public void givenNonFound_WhenFindingById_ThenReturnEmptyOptional() {
-    Optional<StockItem> item = stockItemService.findById(11L);
+    Optional<BeansPurchase> item = beansPurchaseService.findById(11L);
     assertThat(item).isEmpty();
     verifyFindByIdIsCalledOnce(11L);
   }
 
   @Test
   public void whenFindingAll_ThenSuccess() {
-    List<StockItem> items = stockItemService.getAll();
+    List<BeansPurchase> items = beansPurchaseService.getAll();
     assertThat(items)
         .hasSize(3)
-        .extracting(StockItem::getInitialQuantity)
+        .extracting(BeansPurchase::getInitialQuantity)
         .containsOnly(BigDecimal.valueOf(1000), BigDecimal.valueOf(250), BigDecimal.valueOf(500));
     verifyFindAllIsCalledOnce();
   }
@@ -92,11 +92,11 @@ class StockItemServiceImplIntegrationTest {
   public void whenSavingItem_ThenSuccess() {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     beans.setId(1L);
-    StockItem item = new StockItem(beans, BigDecimal.valueOf(250), BigDecimal.valueOf(250));
+    BeansPurchase item = new BeansPurchase(beans, BigDecimal.valueOf(250), BigDecimal.valueOf(250));
     item.setId(1L);
 
-    when(stockItemRepository.save(any(StockItem.class))).thenReturn(item);
-    StockItem savedItem = stockItemService.save(item);
+    when(beansPurchaseRepository.save(any(BeansPurchase.class))).thenReturn(item);
+    BeansPurchase savedItem = beansPurchaseService.save(item);
 
     assertThat(savedItem).isNotNull();
     assertThat(savedItem.getCurrentQuantity()).isEqualTo(BigDecimal.valueOf(250));
@@ -108,8 +108,8 @@ class StockItemServiceImplIntegrationTest {
 
   @Test
   public void whenSettingCurrentQuantity_ThenSuccess() {
-    when(stockItemRepository.setCurrentQuantity(any(BigDecimal.class), anyLong())).thenReturn(1);
-    boolean success = stockItemService.setCurrentQuantity(BigDecimal.valueOf(231.5), 2L);
+    when(beansPurchaseRepository.setCurrentQuantity(any(BigDecimal.class), anyLong())).thenReturn(1);
+    boolean success = beansPurchaseService.setCurrentQuantity(BigDecimal.valueOf(231.5), 2L);
 
     assertThat(success).isTrue();
     verifySetCurrentQuantityIsCalledOnce();
@@ -117,36 +117,36 @@ class StockItemServiceImplIntegrationTest {
 
   @Test
   public void givenNonExistingId_WhenSettingCurrentQuantity_ThenFailure() {
-    boolean failure = stockItemService.setCurrentQuantity(BigDecimal.valueOf(231.5), -1L);
+    boolean failure = beansPurchaseService.setCurrentQuantity(BigDecimal.valueOf(231.5), -1L);
     assertThat(failure).isFalse();
     verifySetCurrentQuantityIsCalledOnce();
   }
 
   @Test
   public void givenInvalidQuantity_WhenSettingCurrentQuantity_ThenFailure() {
-    boolean failure = stockItemService.setCurrentQuantity(BigDecimal.valueOf(-10.23), 1L);
+    boolean failure = beansPurchaseService.setCurrentQuantity(BigDecimal.valueOf(-10.23), 1L);
     assertThat(failure).isFalse();
     verifySetCurrentQuantityIsNotCalled();
   }
 
   @Test
   public void givenZeroQuantity_WhenSettingCurrentQuantity_ThenSuccess() {
-    when(stockItemRepository.setCurrentQuantity(any(BigDecimal.class), anyLong())).thenReturn(1);
-    boolean failure = stockItemService.setCurrentQuantity(BigDecimal.valueOf(0.00), 1L);
+    when(beansPurchaseRepository.setCurrentQuantity(any(BigDecimal.class), anyLong())).thenReturn(1);
+    boolean failure = beansPurchaseService.setCurrentQuantity(BigDecimal.valueOf(0.00), 1L);
     assertThat(failure).isTrue();
     verifySetCurrentQuantityIsCalledOnce();
   }
 
   private void verifyFindByIdIsCalledOnce(Long id) {
-    Mockito.verify(stockItemRepository, Mockito.times(1)).findById(id);
+    Mockito.verify(beansPurchaseRepository, Mockito.times(1)).findById(id);
   }
 
   private void verifyFindAllIsCalledOnce() {
-    Mockito.verify(stockItemRepository, Mockito.times(1)).findAll();
+    Mockito.verify(beansPurchaseRepository, Mockito.times(1)).findAll();
   }
 
   private void verifySaveIsCalledOnce() {
-    Mockito.verify(stockItemRepository, times(1)).save(any(StockItem.class));
+    Mockito.verify(beansPurchaseRepository, times(1)).save(any(BeansPurchase.class));
   }
 
   private void verifySetCurrentQuantityIsCalledOnce() {
@@ -158,6 +158,6 @@ class StockItemServiceImplIntegrationTest {
   }
 
   private void verifySetCurrentQuantityIsCalled(int times) {
-    verify(stockItemRepository, times(times)).setCurrentQuantity(any(BigDecimal.class), anyLong());
+    verify(beansPurchaseRepository, times(times)).setCurrentQuantity(any(BigDecimal.class), anyLong());
   }
 }

@@ -12,24 +12,25 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class StockItemServiceImpl implements StockItemService {
+public class BeansPurchaseServiceImpl implements BeansPurchaseService {
 
-  Logger log = LoggerFactory.getLogger(StockItemServiceImpl.class);
+  Logger log = LoggerFactory.getLogger(BeansPurchaseServiceImpl.class);
 
-  @Autowired StockItemRepository repository;
+  @Autowired
+  BeansPurchaseRepository repository;
 
   @Override
-  public Optional<StockItem> findById(Long id) {
+  public Optional<BeansPurchase> findById(Long id) {
     return repository.findById(id);
   }
 
   @Override
-  public List<StockItem> getAll() {
+  public List<BeansPurchase> getAll() {
     return repository.findAll();
   }
 
   @Override
-  public StockItem save(StockItem item) {
+  public BeansPurchase save(BeansPurchase item) {
     return repository.save(item);
   }
 
