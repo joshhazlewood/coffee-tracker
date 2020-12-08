@@ -1,4 +1,4 @@
-package com.hazlewood.coffeetracker.stock;
+package com.hazlewood.coffeetracker.purchases;
 
 import java.math.BigDecimal;
 import java.util.List;

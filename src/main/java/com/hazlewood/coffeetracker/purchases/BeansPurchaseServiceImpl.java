@@ -1,4 +1,4 @@
-package com.hazlewood.coffeetracker.stock;
+package com.hazlewood.coffeetracker.purchases;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

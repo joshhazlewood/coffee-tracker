@@ -1,4 +1,4 @@
-package com.hazlewood.coffeetracker.stock;
+package com.hazlewood.coffeetracker.purchases;
 
 import com.hazlewood.coffeetracker.beans.Beans;
 
@@ -24,10 +24,10 @@ public class BeansPurchase {
 
   public BeansPurchase() {}
 
-  public BeansPurchase(Beans beans, BigDecimal initialQuantity, BigDecimal currentQuantity) {
+  public BeansPurchase(Beans beans, BigDecimal initialQuantity) {
     this.beans = beans;
     this.initialQuantity = initialQuantity;
-    this.currentQuantity = currentQuantity;
+    this.currentQuantity = initialQuantity;
   }
 
   @Override
@@ -62,6 +62,7 @@ public class BeansPurchase {
 
   public void setInitialQuantity(BigDecimal initialQuantity) {
     this.initialQuantity = initialQuantity;
+    this.currentQuantity = initialQuantity;
   }
 
   public BigDecimal getCurrentQuantity() {

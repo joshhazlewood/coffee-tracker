@@ -33,6 +33,7 @@ class BeansControllerIntegrationTest {
 
   @MockBean private BeansService service;
 
+
   @Test
   public void whenCreatingValidBean_ThenReturnBean() throws Exception {
     var createdBean = new Beans( "Ancoats house blend", "Ancoats", "profile", "India");
@@ -144,8 +145,6 @@ class BeansControllerIntegrationTest {
         .andExpect(jsonPath("$[2].name", is("Neighbourhood house blend")))
         .andExpect(jsonPath("$[2].roastery", is("Neighbourhood")))
         .andExpect(jsonPath("$[2].cupProfile", is("profile")));
-
-
   }
 
   private List<Beans> getBeansList() {

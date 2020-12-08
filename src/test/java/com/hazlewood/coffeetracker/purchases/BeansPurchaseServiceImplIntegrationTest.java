@@ -1,4 +1,4 @@
-package com.hazlewood.coffeetracker.stock;
+package com.hazlewood.coffeetracker.purchases;
 
 import com.hazlewood.coffeetracker.beans.Beans;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,11 +46,11 @@ class BeansPurchaseServiceImplIntegrationTest {
   public void setUp() {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     beans.setId(10L);
-    var stock1 = new BeansPurchase(beans, BigDecimal.valueOf(1000), BigDecimal.valueOf(1000));
+    var stock1 = new BeansPurchase(beans, BigDecimal.valueOf(1000));
     stock1.setId(1L);
-    var stock2 = new BeansPurchase(beans, BigDecimal.valueOf(250), BigDecimal.valueOf(250));
+    var stock2 = new BeansPurchase(beans, BigDecimal.valueOf(250));
     stock2.setId(2L);
-    var stock3 = new BeansPurchase(beans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
+    var stock3 = new BeansPurchase(beans, BigDecimal.valueOf(500));
     stock3.setId(3L);
     var stockList = Arrays.asList(stock1, stock2, stock3);
     
@@ -92,7 +92,7 @@ class BeansPurchaseServiceImplIntegrationTest {
   public void whenSavingItem_ThenSuccess() {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     beans.setId(1L);
-    BeansPurchase item = new BeansPurchase(beans, BigDecimal.valueOf(250), BigDecimal.valueOf(250));
+    BeansPurchase item = new BeansPurchase(beans, BigDecimal.valueOf(250));
     item.setId(1L);
 
     when(beansPurchaseRepository.save(any(BeansPurchase.class))).thenReturn(item);

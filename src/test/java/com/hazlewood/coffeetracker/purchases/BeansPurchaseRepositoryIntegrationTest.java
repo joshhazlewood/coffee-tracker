@@ -1,4 +1,4 @@
-package com.hazlewood.coffeetracker.stock;
+package com.hazlewood.coffeetracker.purchases;
 
 import com.hazlewood.coffeetracker.beans.Beans;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class BeansPurchaseRepositoryIntegrationTest {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     Beans savedBeans = entityManager.persistAndFlush(beans);
 
-    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
+    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500));
     BeansPurchase savedStock = entityManager.persistAndFlush(stock);
 
     var found = repository.findById(savedStock.getId());
@@ -55,7 +55,7 @@ public class BeansPurchaseRepositoryIntegrationTest {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     Beans savedBeans = entityManager.persistAndFlush(beans);
 
-    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
+    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500));
     BeansPurchase savedStock = repository.save(stock);
     assertThat(savedStock).isNotNull();
     assertThat(savedStock.getId()).isNotNull();
@@ -66,7 +66,7 @@ public class BeansPurchaseRepositoryIntegrationTest {
     var beans = new Beans("Ancoats house blend", "Ancoats", "profile", "India");
     Beans savedBeans = entityManager.persistAndFlush(beans);
 
-    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500), BigDecimal.valueOf(500));
+    var stock = new BeansPurchase(savedBeans, BigDecimal.valueOf(500));
     BeansPurchase savedStock = entityManager.persistAndFlush(stock);
 
     int updatedRows = repository.setCurrentQuantity(BigDecimal.valueOf(200), savedStock.getId());

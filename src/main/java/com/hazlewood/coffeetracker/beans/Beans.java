@@ -25,7 +25,7 @@ public class Beans {
   @Nullable
   private String countryOfOrigin;
 
-  protected Beans() {}
+  public Beans() {}
 
   public Beans(String name, String roastery, String cupProfile, String countryOfOrigin) {
     this.name = name;
