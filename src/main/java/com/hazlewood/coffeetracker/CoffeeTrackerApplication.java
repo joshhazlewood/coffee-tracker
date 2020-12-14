@@ -1,5 +1,6 @@
 package com.hazlewood.coffeetracker;
 
+import com.hazlewood.coffeetracker.auth.DatabaseUserDetailsService;
 import com.hazlewood.coffeetracker.beans.Beans;
 import com.hazlewood.coffeetracker.beans.BeansRepository;
 import org.slf4j.Logger;
@@ -9,8 +10,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-
-import java.math.BigDecimal;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class CoffeeTrackerApplication {
@@ -18,6 +20,16 @@ public class CoffeeTrackerApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(CoffeeTrackerApplication.class, args);
+  }
+
+  @Bean
+  public UserDetailsService userDetailsService() {
+    return new DatabaseUserDetailsService();
+  }
+
+  @Bean
+  public BCryptPasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
   @Bean
