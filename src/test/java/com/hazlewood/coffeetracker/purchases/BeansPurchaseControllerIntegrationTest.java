@@ -44,7 +44,8 @@ public class BeansPurchaseControllerIntegrationTest {
 
     when(beansService.exists(anyLong())).thenReturn(true);
     when(beansService.findById(anyLong())).thenReturn(Optional.of(beans));
-    when(beansPurchaseService.save(ArgumentMatchers.any(BeansPurchase.class))).thenReturn(createdBeans);
+    when(beansPurchaseService.save(ArgumentMatchers.any(BeansPurchase.class)))
+        .thenReturn(createdBeans);
 
     var mockBeans = new Beans();
     mockBeans.setId(1L);
@@ -76,7 +77,8 @@ public class BeansPurchaseControllerIntegrationTest {
 
     when(beansService.exists(anyLong())).thenReturn(false);
     when(beansService.save(ArgumentMatchers.any(Beans.class))).thenReturn(beans);
-    when(beansPurchaseService.save(ArgumentMatchers.any(BeansPurchase.class))).thenReturn(createdBeans);
+    when(beansPurchaseService.save(ArgumentMatchers.any(BeansPurchase.class)))
+        .thenReturn(createdBeans);
 
     var mockBeans = new Beans();
     mockBeans.setId(1L);
@@ -108,7 +110,8 @@ public class BeansPurchaseControllerIntegrationTest {
 
     when(beansService.exists(anyLong())).thenReturn(false);
     when(beansService.findByName(anyString())).thenReturn(Optional.of(beans));
-    when(beansPurchaseService.save(ArgumentMatchers.any(BeansPurchase.class))).thenReturn(createdBeans);
+    when(beansPurchaseService.save(ArgumentMatchers.any(BeansPurchase.class)))
+        .thenReturn(createdBeans);
 
     var mockBeans = new Beans();
     mockBeans.setId(1L);
