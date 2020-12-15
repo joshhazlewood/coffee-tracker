@@ -19,7 +19,7 @@ public class DatabaseUserDetailsService implements UserService {
   public User loadUserByUsername(String username) throws UsernameNotFoundException {
     return userRepository
         .findByUsername(username)
-        .orElseThrow(() -> new UsernameNotFoundException("Unable to find with username "));
+        .orElseThrow(() -> new UsernameNotFoundException("Unable to find user with name " + username));
   }
 
   public void save(User user) {
